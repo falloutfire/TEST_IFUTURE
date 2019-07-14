@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ifruit.test_task.Controllers.MainLayoutController">
+   <children>
+      <VBox fx:id="vboxFilePane" layoutX="8.0" layoutY="14.0" prefHeight="448.0" prefWidth="300.0" />
+      <ProgressBar fx:id="progressBar" layoutX="10.0" layoutY="466.0" prefHeight="20.0" prefWidth="680.0" progress="0.0" />
+      <TabPane fx:id="textTabPane" layoutX="336.0" layoutY="13.0" prefHeight="450.0" prefWidth="350.0" tabClosingPolicy="UNAVAILABLE" />
+   </children>
+</AnchorPane>

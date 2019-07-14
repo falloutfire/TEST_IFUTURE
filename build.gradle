@@ -1,0 +1,52 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        
+    }
+}
+
+
+plugins {
+    id 'java'
+    id("org.openjfx.javafxplugin") version "0.0.7"
+}
+
+javafx {
+    version = "11.0.2"
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.swing']
+}
+
+group 'com.ifruit'
+version '1.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'org.fxmisc.richtext', name: 'richtextfx', version: '0.10.1'
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs = ["src/main/resources/"]
+            includes = ["**/*.*"]
+        }
+    }
+}
+
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'com.ifruit.test_task.Application'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
