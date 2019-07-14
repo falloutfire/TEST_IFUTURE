@@ -25,24 +25,18 @@ public class TreeBuilder extends Task<Void> {
         this.progressBar = progressBar;
     }
 
-    public String[] getSplitedPath(File file) {
-        String[] splitedPath = new String[file.toPath().getNameCount() + 1];
-        splitedPath[0] = file.toPath().getRoot().toString();
-        for (int i = 0; i < splitedPath.length - 1; i++) {
-            splitedPath[i + 1] = file.toPath().getName(i).toString() + "/";
-        }
-        splitedPath[splitedPath.length - 1] = splitedPath[splitedPath.length - 1].substring(0, splitedPath[splitedPath.length - 1].length() - 1);
-        return splitedPath;
-    }
-
     @Override
     protected Void call() throws Exception {
+        progressBar.progressProperty().unbind();
+        progressBar.progressProperty().bind(this.progressProperty());
         filter(root, filter, filteredRoot);
+        progressBar.progressProperty().unbind();
+        progressBar.setProgress(0);
         return null;
     }
 
     /**
-     * Create new filtered tree structure
+     * Создать новое фильтрованное дерево
      */
     private void filter(TreeItem<FilePath> root, String filter, TreeItem<FilePath> filteredRoot) throws IOException {
 
@@ -60,7 +54,7 @@ public class TreeBuilder extends Task<Void> {
     }
 
     /**
-     * Comparator for tree filter
+     * Фильтр
      */
     private boolean isMatch(FilePath value, String filter) throws IOException {
         if (value.getPath().toFile().isFile() && getFileExtension(value.getPath().toFile()).equals(EXTENSION)) {
@@ -76,7 +70,6 @@ public class TreeBuilder extends Task<Void> {
         }
         String name = file.getName();
         int i = name.lastIndexOf('.');
-        String ext = i > 0 ? name.substring(i + 1) : "";
-        return ext;
+        return i > 0 ? name.substring(i + 1) : "";
     }
 }

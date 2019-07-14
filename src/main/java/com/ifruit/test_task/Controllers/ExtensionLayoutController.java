@@ -18,6 +18,9 @@ public class ExtensionLayoutController {
         extField.setText(Main.getEXTENSION());
     }
 
+    /**
+     * Сохранение расширения
+     */
     public void onClickSave(ActionEvent actionEvent) {
         if (extField.getText() != null) {
             main.setEXTENSION(extField.getText());

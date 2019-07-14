@@ -18,21 +18,33 @@ import java.io.IOException;
 public class Main extends Application {
 
     private static String ROOT_FOLDER = "";
-    private static String EXTENSION = "txt";
+    private static String EXTENSION = "log";
     private Stage primaryStage;
     private BorderPane rootLayout;
     private MainLayoutController mainLayoutController;
-    private RootLayoutController rootLayoutController;
 
     public static void main(String[] args) {
         launch(args);
     }
 
+    public static String getRootFolder() {
+        return ROOT_FOLDER;
+    }
+
+    public static String getEXTENSION() {
+        return EXTENSION;
+    }
+
+    public void setEXTENSION(String EXTENSION) {
+        Main.EXTENSION = EXTENSION;
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("Test");
-        primaryStage.sizeToScene();
+        this.primaryStage.setTitle("Test IFruit");
+        this.primaryStage.sizeToScene();
+        this.primaryStage.setResizable(false);
         setInitRoot();
         showRootLayout();
         showMainLayout();
@@ -42,7 +54,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/Layouts/RootLayout.fxml"));
         rootLayout = loader.load();
-        rootLayoutController = loader.getController();
+        RootLayoutController rootLayoutController = loader.getController();
         rootLayoutController.setMain(this);
         Scene scene = new Scene(rootLayout);
         primaryStage.setScene(scene);
@@ -95,27 +107,11 @@ public class Main extends Application {
         return primaryStage;
     }
 
-    public static String getRootFolder() {
-        return ROOT_FOLDER;
-    }
-
-    public static String getEXTENSION() {
-        return EXTENSION;
-    }
-
-    public void setEXTENSION(String EXTENSION) {
-        Main.EXTENSION = EXTENSION;
-    }
-
     public void setROOT_FOLDER(String ROOT_FOLDER) {
         Main.ROOT_FOLDER = ROOT_FOLDER;
     }
 
     public MainLayoutController getMainLayoutController() {
         return mainLayoutController;
-    }
-
-    public RootLayoutController getRootLayoutController() {
-        return rootLayoutController;
     }
 }

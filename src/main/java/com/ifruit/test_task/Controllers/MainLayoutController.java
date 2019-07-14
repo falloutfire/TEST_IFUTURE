@@ -4,9 +4,9 @@ import com.ifruit.test_task.Entities.FilePath;
 import com.ifruit.test_task.Main;
 import com.ifruit.test_task.Parser.TreeBuilder;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
@@ -19,17 +19,47 @@ import java.util.Comparator;
 
 public class MainLayoutController {
 
+    private TextField filter;
+    @FXML
+    private VBox vboxFilePane;
+    @FXML
+    private ProgressBar progressBar;
+    @FXML
+    private TabPane textTabPane;
+    @FXML
+    private SplitPane splitPane;
     private TreeView<FilePath> treeView;
     private TreeItem<FilePath> rootTreeItem;
-    private TextField filter;
-    public VBox vboxFilePane;
-    public ProgressBar progressBar;
-    public TabPane textTabPane;
     private Main main;
 
+    /**
+     * Итерация по структуре каталогов и создание дерева
+     */
+    private static void createTree(TreeItem<FilePath> rootItem) {
+        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(rootItem.getValue().getPath())) {
+
+            for (Path path : directoryStream) {
+
+                TreeItem<FilePath> newItem = new TreeItem<>(new FilePath(path));
+                newItem.setExpanded(true);
+
+                rootItem.getChildren().add(newItem);
+
+                if (Files.isDirectory(path)) {
+                    createTree(newItem);
+                }
+            }
+        } catch (Exception ex) {
+            //ex.printStackTrace();
+        }
+    }
 
     public void initialize() {
-        // filter
+        splitPane.setDividerPositions(0.391);
+        AnchorPane pane = (AnchorPane) splitPane.getItems().get(0);
+        pane.maxWidthProperty().bind(splitPane.widthProperty().multiply(0.391));
+        pane.minWidthProperty().bind(splitPane.widthProperty().multiply(0.391));
+
         filter = new TextField();
         filter.setPromptText("Введите искомый текст:");
         filter.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -61,32 +91,10 @@ public class MainLayoutController {
         if (newValue != null) {
             if (newValue.getValue().getPath().toFile().isFile()) {
                 System.out.println(newValue.getValue().getPath());
-                CustomTab tab = new CustomTab(newValue.getValue(), filter.getText());
+                TextTab tab = new TextTab(newValue.getValue(), filter.getText());
                 tab.initialize();
                 textTabPane.getTabs().add(tab);
             }
-        }
-    }
-
-    /**
-     * Итерация по структуре каталогов и создание дерева
-     */
-    private static void createTree(TreeItem<FilePath> rootItem) {
-        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(rootItem.getValue().getPath())) {
-
-            for (Path path : directoryStream) {
-
-                TreeItem<FilePath> newItem = new TreeItem<>(new FilePath(path));
-                newItem.setExpanded(true);
-
-                rootItem.getChildren().add(newItem);
-
-                if (Files.isDirectory(path)) {
-                    createTree(newItem);
-                }
-            }
-        } catch (Exception ex) {
-            //ex.printStackTrace();
         }
     }
 
@@ -103,25 +111,23 @@ public class MainLayoutController {
      * Показать оригинальное дерево или отфильтрованное дерево в зависимости от фильтра
      */
     private void filterChanged(String filter) {
-        progressBar.progressProperty().unbind();
         TreeItem<FilePath> filteredRoot = createTreeRoot();
         TreeBuilder builder = new TreeBuilder(rootTreeItem, filter, filteredRoot, Main.getEXTENSION(), progressBar);
-        new Thread(() -> Platform.runLater(
-                () -> {
-                    if (filter.isEmpty()) {
-                        treeView.setRoot(rootTreeItem);
-                    } else {
-                        builder.run();
-                        progressBar.progressProperty().bind(builder.progressProperty());
-                        treeView.setRoot(filteredRoot);
-                        if (builder.isDone()) {
-                            progressBar.progressProperty().unbind();
-                            progressBar.setProgress(0);
+        new Thread(() -> {
+            if (filter.isEmpty()) {
+                Platform.runLater(() -> {
+                            treeView.setRoot(rootTreeItem);
                         }
-                    }
-                })).start();
-        progressBar.progressProperty().unbind();
-        progressBar.setProgress(0);
+                );
+
+            } else {
+                builder.run();
+                Platform.runLater(() -> {
+                    treeView.setRoot(filteredRoot);
+                        }
+                );
+            }
+        }).start();
     }
 
     /**
@@ -143,9 +149,5 @@ public class MainLayoutController {
 
     TreeItem<FilePath> getRootTreeItem() {
         return rootTreeItem;
-    }
-
-    public Main getMain() {
-        return main;
     }
 }

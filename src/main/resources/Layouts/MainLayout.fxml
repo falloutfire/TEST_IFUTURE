@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-
-<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ifruit.test_task.Controllers.MainLayoutController">
-   <children>
-      <VBox fx:id="vboxFilePane" layoutX="8.0" layoutY="14.0" prefHeight="448.0" prefWidth="300.0" />
-      <ProgressBar fx:id="progressBar" layoutX="10.0" layoutY="466.0" prefHeight="20.0" prefWidth="680.0" progress="0.0" />
-      <TabPane fx:id="textTabPane" layoutX="336.0" layoutY="13.0" prefHeight="450.0" prefWidth="350.0" tabClosingPolicy="UNAVAILABLE" />
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="525.0" prefWidth="700.0"
+            xmlns="http://javafx.com/javafx/8.0.171"
+            fx:controller="com.ifruit.test_task.Controllers.MainLayoutController">
+    <children>
+        <ProgressBar fx:id="progressBar" layoutX="10.0" layoutY="501.0" prefHeight="20.0" prefWidth="680.0"
+                     progress="0.0"/>
+        <SplitPane fx:id="splitPane" dividerPositions="0.391" prefHeight="496.0" prefWidth="700.0">
+            <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                    <children>
+                        <VBox fx:id="vboxFilePane" prefHeight="494.0" prefWidth="275.0"/>
+                    </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                    <children>
+                        <TabPane fx:id="textTabPane" prefHeight="494.0" prefWidth="415.0" tabClosingPolicy="ALL_TABS"/>
+                    </children>
+                </AnchorPane>
+            </items>
+        </SplitPane>
    </children>
 </AnchorPane>

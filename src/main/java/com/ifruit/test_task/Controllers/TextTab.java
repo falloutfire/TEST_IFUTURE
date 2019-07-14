@@ -18,18 +18,19 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class CustomTab extends Tab {
+/**
+ * Класс для создания вклдаки с текстом
+ */
+class TextTab extends Tab {
 
     private FilePath filePath;
-    private VBox vboxTextPane;
     private ArrayList<Integer> positions;
     private int currentPosition;
-    //private TextArea area;
     private JTextArea area;
     private String findingText;
 
 
-    public CustomTab(FilePath filePath, String findingText) {
+    TextTab(FilePath filePath, String findingText) {
         super.setText(filePath.toString());
         this.filePath = filePath;
         this.positions = new ArrayList<>();
@@ -37,12 +38,16 @@ public class CustomTab extends Tab {
         this.findingText = findingText;
     }
 
-    public void initialize() throws IOException {
-        /*StyleClassedTextArea bigTextArea = new StyleClassedTextArea();
-        bigTextArea.appendText(new FileParser().getText(filePath));*/
+    void initialize() {
+        new Thread(() -> {
+            try {
+                new FileParser().getFindingTextPositions(filePath, findingText, positions);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
 
-        new FileParser().getFindingTextPositions(filePath, findingText, positions);
-        vboxTextPane = new VBox();
+        VBox vboxTextPane = new VBox();
 
         final SwingNode swingNode = new SwingNode();
         createAndSetSwingContent(swingNode);
@@ -61,9 +66,6 @@ public class CustomTab extends Tab {
             prevPosition();
         });
 
-        //vboxTextPane.setPadding(new Insets(10));
-        //vboxTextPane.setSpacing(10);
-
         ToolBar toolBar = new ToolBar();
         toolBar.getItems().addAll(btnNext, btnPrev);
 
@@ -72,14 +74,14 @@ public class CustomTab extends Tab {
     }
 
 
-    public int getCurrentPosition() {
+    private int getCurrentPosition() {
         return this.positions.get(this.currentPosition);
     }
 
-    public void highLightWord() {
+    private void highLightWord() {
         Highlighter highlighter = this.area.getHighlighter();
         Highlighter.HighlightPainter painter =
-                new DefaultHighlighter.DefaultHighlightPainter(Color.pink);
+                new DefaultHighlighter.DefaultHighlightPainter(Color.GREEN);
         int p0 = getCurrentPosition();
         int p1 = p0 + this.findingText.length();
         try {
@@ -90,15 +92,15 @@ public class CustomTab extends Tab {
         }
     }
 
-    public void nextPosition() {
+    private void nextPosition() {
         this.area.setCaretPosition(getNextPosition());
     }
 
-    public void prevPosition() {
+    private void prevPosition() {
         this.area.setCaretPosition(getPrevPosition());
     }
 
-    public int getNextPosition() {
+    private int getNextPosition() {
         if (this.currentPosition == this.positions.size() - 1) {
             this.currentPosition = 0;
         } else {
@@ -109,7 +111,7 @@ public class CustomTab extends Tab {
         return this.positions.get(this.currentPosition);
     }
 
-    public int getPrevPosition() {
+    private int getPrevPosition() {
         if (this.currentPosition == 0) {
             this.currentPosition = this.positions.size() - 1;
         } else {

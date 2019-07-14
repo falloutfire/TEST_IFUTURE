@@ -4,8 +4,9 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ifruit.test_task.Controllers.RootLayoutController">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="555.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.999-ea"
+            fx:controller="com.ifruit.test_task.Controllers.RootLayoutController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>

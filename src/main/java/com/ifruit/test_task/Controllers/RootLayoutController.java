@@ -15,6 +15,9 @@ public class RootLayoutController {
 
     }
 
+    /**
+     * Открытие папки
+     */
     public void onClickFolder(ActionEvent actionEvent) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         configuringDirectoryChooser(directoryChooser);
@@ -26,9 +29,12 @@ public class RootLayoutController {
         }
     }
 
+    /**
+     * Смена расширения
+     */
     public void onClickExtensions(ActionEvent actionEvent) throws IOException {
+        //TODO поменять дерево
         boolean isReload = main.showExtensionsLayout();
-        System.out.println(isReload);
     }
 
     private void configuringDirectoryChooser(DirectoryChooser directoryChooser) {
