@@ -1,8 +1,8 @@
-package com.ifruit.test_task;
+package com.ifuture.test_task;
 
-import com.ifruit.test_task.Controllers.ExtensionLayoutController;
-import com.ifruit.test_task.Controllers.MainLayoutController;
-import com.ifruit.test_task.Controllers.RootLayoutController;
+import com.ifuture.test_task.Controllers.ExtensionLayoutController;
+import com.ifuture.test_task.Controllers.MainLayoutController;
+import com.ifuture.test_task.Controllers.RootLayoutController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

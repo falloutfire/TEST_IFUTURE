@@ -1,6 +1,6 @@
-package com.ifruit.test_task.Parser;
+package com.ifuture.test_task.Parser;
 
-import com.ifruit.test_task.Entities.FilePath;
+import com.ifuture.test_task.Entities.FilePath;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class FileParser {
         });
     }
 
-    public void getFindingTextPositions(FilePath file, String findingText, ArrayList<Integer> positions) throws IOException {
+    public void getFindingTextPositions(FilePath file, String findingText, ArrayList<Integer> positions) {
         String text = getText(file).toLowerCase();
         Pattern word = Pattern.compile(findingText.toLowerCase());
         Matcher match = word.matcher(text);
@@ -27,7 +27,7 @@ public class FileParser {
         }
     }
 
-    public String getText(FilePath path) throws IOException {
+    public String getText(FilePath path) {
         String outString = null;
         try (BufferedReader br = new BufferedReader(new FileReader(path.getPath().toFile()))) {
             StringBuilder sb = new StringBuilder();

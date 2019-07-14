@@ -1,6 +1,6 @@
-package com.ifruit.test_task.Controllers;
+package com.ifuture.test_task.Controllers;
 
-import com.ifruit.test_task.Main;
+import com.ifuture.test_task.Main;
 import javafx.event.ActionEvent;
 import javafx.stage.DirectoryChooser;
 

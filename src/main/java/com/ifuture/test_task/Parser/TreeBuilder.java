@@ -1,6 +1,6 @@
-package com.ifruit.test_task.Parser;
+package com.ifuture.test_task.Parser;
 
-import com.ifruit.test_task.Entities.FilePath;
+import com.ifuture.test_task.Entities.FilePath;
 import javafx.concurrent.Task;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TreeItem;

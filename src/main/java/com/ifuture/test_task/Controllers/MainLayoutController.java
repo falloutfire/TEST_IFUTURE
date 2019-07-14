@@ -1,8 +1,8 @@
-package com.ifruit.test_task.Controllers;
+package com.ifuture.test_task.Controllers;
 
-import com.ifruit.test_task.Entities.FilePath;
-import com.ifruit.test_task.Main;
-import com.ifruit.test_task.Parser.TreeBuilder;
+import com.ifuture.test_task.Entities.FilePath;
+import com.ifuture.test_task.Main;
+import com.ifuture.test_task.Parser.TreeBuilder;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -10,7 +10,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -75,19 +74,13 @@ public class MainLayoutController {
 
         treeView.setRoot(rootTreeItem);
 
-        treeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            try {
-                openFile(newValue);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        treeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> openFile(newValue));
     }
 
     /**
      * Открытие файла из дерева
      */
-    private void openFile(TreeItem<FilePath> newValue) throws IOException {
+    private void openFile(TreeItem<FilePath> newValue) {
         if (newValue != null) {
             if (newValue.getValue().getPath().toFile().isFile()) {
                 System.out.println(newValue.getValue().getPath());
@@ -115,17 +108,10 @@ public class MainLayoutController {
         TreeBuilder builder = new TreeBuilder(rootTreeItem, filter, filteredRoot, Main.getEXTENSION(), progressBar);
         new Thread(() -> {
             if (filter.isEmpty()) {
-                Platform.runLater(() -> {
-                            treeView.setRoot(rootTreeItem);
-                        }
-                );
-
+                Platform.runLater(() -> treeView.setRoot(rootTreeItem));
             } else {
                 builder.run();
-                Platform.runLater(() -> {
-                    treeView.setRoot(filteredRoot);
-                        }
-                );
+                Platform.runLater(() -> treeView.setRoot(filteredRoot));
             }
         }).start();
     }

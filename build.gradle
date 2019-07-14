@@ -19,10 +19,10 @@ javafx {
     modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.swing']
 }
 
-group 'com.ifruit'
+group 'com.ifuture'
 version '1.0'
 
-mainClassName = 'com.ifruit.test_task.Main'
+mainClassName = 'com.ifuture.test_task.Main'
 
 sourceCompatibility = 1.8
 
@@ -46,7 +46,7 @@ sourceSets {
 
 task fatJar(type: Jar) {
     manifest {
-        attributes 'Main-Class': 'com.ifruit.test_task.Main'
+        attributes 'Main-Class': 'com.ifuture.test_task.Main'
     }
     baseName = project.name + '-all'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }

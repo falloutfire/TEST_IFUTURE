@@ -1,7 +1,7 @@
-package com.ifruit.test_task.Controllers;
+package com.ifuture.test_task.Controllers;
 
-import com.ifruit.test_task.Entities.FilePath;
-import com.ifruit.test_task.Parser.FileParser;
+import com.ifuture.test_task.Entities.FilePath;
+import com.ifuture.test_task.Parser.FileParser;
 import javafx.embed.swing.SwingNode;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -15,7 +15,6 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -39,13 +38,7 @@ class TextTab extends Tab {
     }
 
     void initialize() {
-        new Thread(() -> {
-            try {
-                new FileParser().getFindingTextPositions(filePath, findingText, positions);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }).start();
+        new Thread(() -> new FileParser().getFindingTextPositions(filePath, findingText, positions)).start();
 
         VBox vboxTextPane = new VBox();
 
@@ -58,13 +51,9 @@ class TextTab extends Tab {
         btnNext.setPrefSize(80, 25);
         btnPrev.setPrefSize(80, 25);
 
-        btnNext.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            nextPosition();
-        });
+        btnNext.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> nextPosition());
 
-        btnPrev.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            prevPosition();
-        });
+        btnPrev.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> prevPosition());
 
         ToolBar toolBar = new ToolBar();
         toolBar.getItems().addAll(btnNext, btnPrev);
@@ -123,18 +112,14 @@ class TextTab extends Tab {
 
     private void createAndSetSwingContent(final SwingNode swingNode) {
         SwingUtilities.invokeLater(() -> {
-            try {
-                area = new JTextArea();
-                JScrollPane scrollPane;
+            area = new JTextArea();
+            JScrollPane scrollPane;
 
-                area.setText(new FileParser().getText(filePath));
+            area.setText(new FileParser().getText(filePath));
 
-                area.setEditable(false);
-                scrollPane = new JScrollPane(area);
-                swingNode.setContent(scrollPane);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            area.setEditable(false);
+            scrollPane = new JScrollPane(area);
+            swingNode.setContent(scrollPane);
         });
     }
 }

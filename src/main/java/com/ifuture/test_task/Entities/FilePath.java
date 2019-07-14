@@ -1,4 +1,4 @@
-package com.ifruit.test_task.Entities;
+package com.ifuture.test_task.Entities;
 
 import java.nio.file.Path;
 
