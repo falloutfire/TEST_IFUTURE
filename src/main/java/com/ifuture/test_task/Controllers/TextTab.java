@@ -27,6 +27,7 @@ class TextTab extends Tab {
     private int currentPosition;
     private JTextArea area;
     private String findingText;
+    private SwingNode swingNode;
 
 
     TextTab(FilePath filePath, String findingText) {
@@ -42,26 +43,38 @@ class TextTab extends Tab {
 
         VBox vboxTextPane = new VBox();
 
-        final SwingNode swingNode = new SwingNode();
+        swingNode = new SwingNode();
         createAndSetSwingContent(swingNode);
 
         VBox.setVgrow(swingNode, Priority.ALWAYS);
         Button btnNext = new Button("Next");
         Button btnPrev = new Button("Previous");
-        btnNext.setPrefSize(80, 25);
-        btnPrev.setPrefSize(80, 25);
+        Button btnSelect = new Button("Select All");
+        btnNext.setPrefSize(90, 25);
+        btnPrev.setPrefSize(90, 25);
+        btnPrev.setPrefSize(90, 25);
 
         btnNext.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> nextPosition());
-
         btnPrev.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> prevPosition());
+        btnSelect.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            selectText();
+            area.setFocusable(true);
+        });
 
         ToolBar toolBar = new ToolBar();
-        toolBar.getItems().addAll(btnNext, btnPrev);
+        toolBar.getItems().addAll(btnNext, btnPrev, btnSelect);
 
         vboxTextPane.getChildren().addAll(toolBar, swingNode);
         this.setContent(vboxTextPane);
     }
 
+    private void selectText() {
+        swingNode.setFocusTraversable(true);
+        swingNode.requestFocus();
+        area.requestFocus();
+        area.grabFocus();
+        area.selectAll();
+    }
 
     private int getCurrentPosition() {
         return this.positions.get(this.currentPosition);
@@ -114,7 +127,6 @@ class TextTab extends Tab {
         SwingUtilities.invokeLater(() -> {
             area = new JTextArea();
             JScrollPane scrollPane;
-
             area.setText(new FileParser().getText(filePath));
 
             area.setEditable(false);

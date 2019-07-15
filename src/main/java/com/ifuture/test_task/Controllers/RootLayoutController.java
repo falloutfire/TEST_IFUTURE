@@ -33,8 +33,11 @@ public class RootLayoutController {
      * Смена расширения
      */
     public void onClickExtensions(ActionEvent actionEvent) throws IOException {
-        //TODO поменять дерево
         boolean isReload = main.showExtensionsLayout();
+        if (isReload) {
+            main.getMainLayoutController().createTree();
+            main.getMainLayoutController().getTreeView().setRoot(main.getMainLayoutController().getRootTreeItem());
+        }
     }
 
     private void configuringDirectoryChooser(DirectoryChooser directoryChooser) {
