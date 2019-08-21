@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class Main extends Application {
 
@@ -76,7 +77,7 @@ public class Main extends Application {
         AnchorPane pane = loader.load();
 
         Stage dialogStage = new Stage();
-        dialogStage.setTitle("Настроки");
+        dialogStage.setTitle(new String("Настроки".getBytes(), StandardCharsets.UTF_8));
         dialogStage.initModality(Modality.WINDOW_MODAL);
         dialogStage.initOwner(primaryStage);
         Scene scene = new Scene(pane);

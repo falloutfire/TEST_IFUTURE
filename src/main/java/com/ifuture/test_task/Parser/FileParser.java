@@ -3,6 +3,7 @@ package com.ifuture.test_task.Parser;
 import com.ifuture.test_task.Entities.FilePath;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -10,6 +10,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -53,14 +56,15 @@ public class MainLayoutController {
         }
     }
 
-    public void initialize() {
+    public void initialize() throws UnsupportedEncodingException {
         splitPane.setDividerPositions(0.391);
         AnchorPane pane = (AnchorPane) splitPane.getItems().get(0);
         pane.maxWidthProperty().bind(splitPane.widthProperty().multiply(0.391));
         pane.minWidthProperty().bind(splitPane.widthProperty().multiply(0.391));
 
         filter = new TextField();
-        filter.setPromptText("Введите искомый текст:");
+        String text = new String(("Введите искомый текст:").getBytes(), StandardCharsets.UTF_8);
+        filter.setPromptText(text);
         filter.textProperty().addListener((observable, oldValue, newValue) -> {
             textTabPane.getTabs().clear();
             filterChanged(newValue);
@@ -114,6 +118,7 @@ public class MainLayoutController {
                 Platform.runLater(() -> treeView.setRoot(filteredRoot));
             }
         }).start();
+        System.out.println("test");
     }
 
     /**

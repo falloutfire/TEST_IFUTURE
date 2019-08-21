@@ -15,6 +15,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import java.awt.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 /**
@@ -127,7 +128,7 @@ class TextTab extends Tab {
         SwingUtilities.invokeLater(() -> {
             area = new JTextArea();
             JScrollPane scrollPane;
-            area.setText(new FileParser().getText(filePath));
+            area.setText(new String(new FileParser().getText(filePath).getBytes(), StandardCharsets.UTF_8));
 
             area.setEditable(false);
             scrollPane = new JScrollPane(area);
